@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:plant_project/models/product.dart';
 import 'package:plant_project/screens/homescreen.dart';
 
 class FavoriteScreen extends StatefulWidget {
@@ -9,37 +11,8 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-  List<String> items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-    'Item 6',
-    'Item 7',
-    'Item 8',
-    'Item 9',
-    'Item 10',
-    'Item 11',
-    'Item 12',
-    'Item 13',
-    'Item 14',
-    'Item 15',
-    'Item 16',
-    'Item 17',
-    'Item 18',
-    'Item 19',
-    'Item 20',
-    'Item 21',
-    'Item 22',
-    'Item 23',
-    'Item 24',
-    'Item 25',
-    'Item 26',
-  ];
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -51,69 +24,67 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           },
           icon: const Icon(Icons.arrow_back),
         ),
-        title: Text('Products which you like the most'),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.production_quantity_limits_rounded),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Row(
+              children: [
+                Text(
+                  "Favourites",
+                  style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-          ),
+          Expanded(
+              child: ListView.builder(
+                  itemCount: productAll.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Slidable(
+                        endActionPane: ActionPane(
+                          motion: ScrollMotion(),
+                          children: [
+                            SlidableAction(
+                              onPressed: (context) {
+                                setState(() {
+                                  productAll.removeAt(index);
+                                });
+                              },
+                              backgroundColor: Color.fromARGB(255, 54, 98, 43),
+                              foregroundColor: Colors.white,
+                              icon: Icons.delete,
+                              label: 'Delete',
+                            )
+                          ],
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            productAll[index].plantname,
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            productAll[index].discription,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          leading: CircleAvatar(
+                            radius: 30,
+                            backgroundImage: AssetImage(productAll[index].image),
+                            backgroundColor: Color(0xffF0F4EF),
+                          ),
+                          trailing: Text(
+                            productAll[index].price,
+                            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, color: Color(0xff475E3E)),
+                          ),
+                          tileColor: Color.fromARGB(255, 242, 242, 242),
+                        ),
+                      ),
+                    );
+                  }))
         ],
-      ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          await Future.delayed(Duration(seconds: 2));
-        },
-        child: Scrollbar(
-          child: ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              return Dismissible(
-                key: Key(items[index]),
-                direction: DismissDirection.horizontal,
-                background: Container(
-                  height: 200,
-                  width: screenWidth * 0.25,
-                  color: Colors.red,
-                  alignment: Alignment.centerLeft,
-                  child: Icon(Icons.delete),
-                ),
-                onDismissed: (direction) {
-                  setState(() {
-                    items.removeAt(index);
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('${items[index]} dismissed'),
-                    ),
-                  );
-                },
-                child: Column(
-                  children: [
-                    ListTile(
-                      leading: Icon(Icons.person),
-                      trailing: Text('₹ $index,000'),
-                      subtitle: Text('9954635435 $index'),
-                      title: Text(items[index]),
-                    ),
-                    Divider(
-                      thickness: 10,
-                      color: Colors.black,
-                      height: 10,
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
       ),
     );
   }

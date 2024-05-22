@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:plant_project/models/product.dart';
+import 'package:plant_project/screens/detailscreen.dart';
+
 import 'package:plant_project/screens/notificationscreen.dart';
+import 'package:plant_project/screens/profilescreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,6 +16,21 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   get kPrimaryColor => null;
+  int seletected = 0;
+  late List<bool> checked;
+  @override
+  void initState() {
+    super.initState();
+    checked = List<bool>.filled(productAll.length, false);
+  }
+
+  List items = [
+    'All',
+    'Indoor',
+    'Outdoor',
+    'Cactus',
+    'Rose',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -19,216 +39,273 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
           child: Column(
             children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 40,
-                    foregroundImage: AssetImage("assets/profileimage.png"),
-                  ),
-                  SizedBox(width: 10),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Welcome",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xff98A283),
-                        ),
-                      ),
-                      Text(
-                        "Charmi",
-                        style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500, color: Color(0xff344054)),
-                      ),
-                    ],
-                  ),
-                  Spacer(),
-                  CircleAvatar(
-                      radius: 21,
-                      backgroundColor: Color(0xffF2F4F7),
-                      child: InkWell(
-                        child: Image.asset(
-                          "assets/noo.png",
-                          height: 50.0,
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => NotificationScreen()),
-                          );
-                        },
-                      ))
-                ],
-              ).marginSymmetric(horizontal: 16.0, vertical: 10),
-              Row(
-                children: [
-                  Icon(
-                    Icons.location_on_sharp,
-                    color: Color(0xffD0D5DD),
-                    size: 30,
-                  ),
-                  SizedBox(width: 6),
-                  Text(
-                    "Surat, Gujarat",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xffD0D5DD),
-                    ),
-                  ),
-                ],
-              ).marginSymmetric(horizontal: 16.0, vertical: 16.0),
-              Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: 50,
-                        margin: EdgeInsets.symmetric(horizontal: 10.0),
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Color(0xffF2F4F7)),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              prefixIcon: Container(
-                                height: 50,
-                                width: 50,
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  "assets/search.png",
-                                  height: 25,
-                                  width: 25,
-                                ),
-                              ),
-                              suffixIcon: Image.asset("assets/setting.png"),
-                              border: InputBorder.none,
-                              fillColor: Color(0xffF2F4F7),
-                              filled: true,
-                              hintText: "Search here",
-                              hintStyle: TextStyle(fontSize: 24, color: Color(0xff98A2B3))),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            const Text(
-                              'Category ',
-                              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ),
-                      ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          Container(
-                            height: 45,
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(29),
-                              color: Color(0xff475E3E),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "All",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 40,
-                            margin: EdgeInsets.only(left: 10.0),
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(29),
-                              border: Border.all(color: Color(0xff475E3E), width: 1.5),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Indoor",
-                                style: TextStyle(color: Color(0xffD0D5DD), fontSize: 16, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 40,
-                            margin: EdgeInsets.only(left: 10.0),
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(29),
-                              border: Border.all(color: Color(0xff475E3E), width: 1.5),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Outdoor",
-                                style: TextStyle(color: Color(0xffD0D5DD), fontSize: 16, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 40,
-                            margin: EdgeInsets.only(left: 10.0),
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(29),
-                              border: Border.all(color: Color(0xff475E3E), width: 1.5),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Cactus",
-                                style: TextStyle(color: Color(0xffD0D5DD), fontSize: 16, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 40,
-                            margin: EdgeInsets.only(left: 10.0),
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(29),
-                              border: Border.all(color: Color(0xff475E3E), width: 1.5),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Rose",
-                                style: TextStyle(color: Color(0xffD0D5DD), fontSize: 16, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 40,
-                            margin: EdgeInsets.only(left: 10.0),
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(29),
-                              border: Border.all(color: Color(0xff475E3E), width: 1.5),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Neem",
-                                style: TextStyle(color: Color(0xffD0D5DD), fontSize: 16, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              SizedBox(height: 20.h),
+              topBar(context: context),
+              location(),
+              SizedBox(height: 20.h),
+              search(),
+              SizedBox(height: 20.h),
+              categories(),
+              SizedBox(height: 15.h),
+              cardView(),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget topBar({required BuildContext context}) {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProfileScreen(),
+              )),
+          child: CircleAvatar(
+            radius: 30.r,
+            foregroundImage: AssetImage("assets/profileimage.png"),
+          ),
+        ),
+        SizedBox(width: 10.w),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              "Welcome",
+              style: TextStyle(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w500,
+                color: Color(0xffD0D5DD),
+              ),
+            ),
+            Text(
+              "Charmi",
+              style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w500, color: Color(0xff344054)),
+            ),
+          ],
+        ),
+        const Spacer(),
+        CircleAvatar(
+          radius: 21.r,
+          backgroundColor: const Color(0xffF2F4F7),
+          child: InkWell(
+            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+            child: Image.asset(
+              "assets/noo.png",
+              height: 50.0.h,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const NotificationScreen()),
+              );
+            },
+          ),
+        ),
+      ],
+    ).marginSymmetric(horizontal: 16.0.w, vertical: 10.0.h);
+  }
+
+  Widget location() {
+    return Row(
+      children: [
+        Icon(
+          Icons.location_on_sharp,
+          color: Color(0xffD0D5DD),
+          size: 20.h,
+        ),
+        SizedBox(width: 6.w),
+        Text(
+          "Surat, Gujarat",
+          style: TextStyle(
+            fontSize: 15.sp,
+            fontWeight: FontWeight.w600,
+            color: Color(0xffD0D5DD),
+          ),
+        ),
+      ],
+    ).marginSymmetric(horizontal: 16.0.w, vertical: 00.h);
+  }
+
+  Widget search() {
+    return Container(
+      width: Get.width,
+      height: 40.0.h,
+      margin: EdgeInsets.symmetric(horizontal: 10.0.w),
+      padding: EdgeInsets.symmetric(horizontal: 10.0.w),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r), color: const Color(0xffF2F4F7)),
+      child: TextField(
+        decoration: InputDecoration(
+            prefixIcon: Container(
+              height: 50.h,
+              width: 50.w,
+              alignment: Alignment.center,
+              child: Image.asset(
+                "assets/search.png",
+                height: 25.h,
+                width: 25.w,
+              ),
+            ),
+            suffixIcon: Image.asset("assets/setting.png"),
+            border: InputBorder.none,
+            fillColor: const Color(0xffF2F4F7),
+            filled: true,
+            hintText: "Search here",
+            hintStyle: TextStyle(fontSize: 20.sp, color: Color(0xff98A2B3))),
+      ),
+    );
+  }
+
+  Widget categories() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Category',
+          style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 20.h),
+        SizedBox(
+          height: 35.h,
+          width: double.infinity,
+          child: ListView.builder(
+            itemCount: items.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return InkWell(
+                splashFactory: NoSplash.splashFactory,
+                onTap: () {
+                  setState(() {
+                    seletected = index;
+                  });
+                },
+                child: Container(
+                  height: 30.h,
+                  padding: EdgeInsets.symmetric(horizontal: 15.0.w),
+                  margin: EdgeInsets.symmetric(horizontal: 5.0.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(29.r),
+                    border: Border.all(
+                        color: seletected != index ? const Color(0xffD0D5DD) : Colors.transparent, width: 1.5),
+                    color: seletected == index ? const Color(0xff475E3E) : Colors.transparent,
+                  ),
+                  child: Center(
+                    child: Text(
+                      items[index],
+                      style: TextStyle(
+                        color: seletected != index ? const Color(0xffD0D5DD) : Colors.white,
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    ).marginSymmetric(horizontal: 16.0.w, vertical: 00.0.h);
+  }
+
+  Widget cardView() {
+    return Expanded(
+      child: GridView.builder(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, childAspectRatio: (50 / 72), crossAxisSpacing: 0, mainAxisSpacing: 0),
+        scrollDirection: Axis.vertical,
+        itemCount: productAll.length,
+        itemBuilder: (context, index) {
+          return Container(
+            padding: EdgeInsets.all(10.r),
+            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+            decoration: BoxDecoration(
+              color: const Color(0xffF0F4EF),
+              borderRadius: BorderRadius.circular(15.r),
+            ),
+            child: Stack(
+              children: [
+                Positioned(
+                  right: 0,
+                  child: CircleAvatar(
+                    backgroundColor: Color(0xffB5C9AD),
+                    radius: 10.r,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          checked[index] = !checked[index];
+                        });
+                      },
+                      child: Icon(
+                        checked[index] ? Icons.favorite : Icons.favorite_border_outlined,
+                        color: Colors.red,
+                        size: 15.h,
+                      ),
+                    ),
+                  ),
+                ),
+                Column(
+                  children: [
+                    Image.asset(
+                      productAll[index].image,
+                    ),
+                    Spacer(),
+                    Row(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              productAll[index].plantname,
+                              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 5.0.w, vertical: 4.0.h),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(25.0.r),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  productAll[index].price,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w500, fontSize: 14.sp, color: Color(0xff475E3E)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        InkWell(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailScreen(
+                                      productdata: productAll[index],
+                                    )),
+                          ),
+                          child: CircleAvatar(
+                            backgroundColor: const Color(0xffB5C9AD),
+                            radius: 12.r,
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 20.h,
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

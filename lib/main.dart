@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:plant_project/screens/welcomescreen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -22,9 +22,9 @@ class _MyAppState extends State<MyApp> {
       child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            useMaterial3: false,
+            useMaterial3: true,
           ),
-          home: WelcomeScreen()),
+          home: const WelcomeScreen()),
     );
   }
 }
