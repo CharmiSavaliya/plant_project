@@ -15,6 +15,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           ShapeOfView(
@@ -28,14 +29,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: Image.asset("assets/splash1.png"),
             ),
           ),
-           SizedBox(height: 20.h),
+          SizedBox(height: 20.h),
           Text(
             "Create Your \nOwn Garden!",
             style: TextStyle(
               fontSize: 35.sp,
             ),
           ),
-           SizedBox(height: 20.h),
+          SizedBox(height: 20.h),
           Container(
             height: 45.h,
             padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -47,29 +48,31 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-             Text(
-                  "Let's Start",
-                  style: TextStyle(
-                    fontSize: 18.sp,
-                    color: Colors.white,
+                InkWell(
+                  onTap: () =>
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const PlantScreen())),
+                  child: Text(
+                    "Let's Start",
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-               SizedBox(width: 25.w),
+                SizedBox(width: 25.w),
                 Container(
-                  padding:  EdgeInsets.all(4.0.r),
+                  padding: EdgeInsets.all(4.0.r),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 0.8.w),
                     shape: BoxShape.circle,
                   ),
                   child: InkWell(
-                    child:  Icon(
+                    child: Icon(
                       Icons.arrow_forward_ios_outlined,
                       color: Colors.white,
                       size: 18.h,
                     ),
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const PlantScreen()));
-                    },
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const PlantScreen())),
                   ),
                 ),
               ],

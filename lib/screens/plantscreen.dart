@@ -4,6 +4,7 @@ import 'package:plant_project/cartscreen.dart';
 import 'package:plant_project/screens/favouritescreen.dart';
 import 'package:plant_project/screens/homescreen.dart';
 import 'package:plant_project/screens/profilescreen.dart';
+import 'package:plant_project/screens/scannerscreen.dart';
 
 class PlantScreen extends StatefulWidget {
   const PlantScreen({super.key});
@@ -15,128 +16,101 @@ class PlantScreen extends StatefulWidget {
 class _PlantScreenState extends State<PlantScreen> {
   int currentIndex = 0;
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   List screens = [
     const HomeScreen(),
     const FavoriteScreen(),
-    const SizedBox(),
+    const ScannerScreen(),
     const cartScreen(),
     const ProfileScreen(),
   ];
-  final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = const HomeScreen();
+
+  List<BottomDataModel> bottomDataList = [
+    BottomDataModel(icon: Icons.home, indextext: 0),
+    BottomDataModel(icon: Icons.favorite, indextext: 1),
+    BottomDataModel(icon: Icons.shopping_cart, indextext: 3),
+    BottomDataModel(icon: Icons.person, indextext: 4),
+  ];
+
+  void _onitemTapped(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageStorage(
-        child: currentScreen,
-        bucket: bucket,
-      ),
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingActionButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-        onPressed: () {},
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(108)),
+        onPressed: () {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ScannerScreen(),
+              ));
+        },
         elevation: 25,
         backgroundColor: const Color(0xff475E3E),
-        child: const Icon(
+        child: Icon(
           Icons.qr_code_scanner,
           color: Colors.white,
         ),
       ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(50)),
-        child: BottomAppBar(
+      body: screens[currentIndex],
+      bottomNavigationBar: Container(
+        height: 55.h,
+        decoration: BoxDecoration(
           color: Colors.white,
-          child: Container(
-            // color: Colors.white,
-            height: 45.h,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MaterialButton(
-                  minWidth: 40,
-                  onPressed: () {
-                    setState(() {
-                      currentScreen = const HomeScreen();
-                      currentIndex = 0;
-                    });
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50.r),
+            topRight: Radius.circular(50.r),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: List.generate(
+            bottomDataList.length,
+            (index) => GestureDetector(
+                onTap: () {
+                  _onitemTapped(index);
+                },
+                child: InkWell(
+                  onTap: () {
+                    _onitemTapped(bottomDataList[index].indextext);
                   },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.home_rounded,
-                        color: currentIndex == 0 ? const Color.fromARGB(255, 45, 111, 79) : Colors.grey,
-                        size: 30,
-                      ),
-                    ],
+                  child: SizedBox(
+                    height: 50.h,
+                    width: 50.w,
+                    child: Icon(
+                      bottomDataList[index].icon,
+                      size: 30,
+                      color: bottomDataList[index].indextext == currentIndex
+                          ? const Color.fromARGB(255, 73, 99, 63)
+                          : const Color.fromARGB(255, 207, 204, 204),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 30),
-                MaterialButton(
-                  minWidth: 40,
-                  onPressed: () {
-                    setState(() {
-                      currentScreen = const FavoriteScreen();
-                      currentIndex = 1;
-                    });
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.favorite,
-                        color: currentIndex == 1 ? const Color.fromARGB(255, 45, 111, 79) : Colors.grey,
-                        size: 30,
-                      )
-                    ],
-                  ),
-                ),
-                Spacer(),
-                MaterialButton(
-                  minWidth: 40,
-                  onPressed: () {
-                    setState(() {
-                      currentScreen = const cartScreen();
-                      currentIndex = 2;
-                    });
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.shopping_cart,
-                        color: currentIndex == 2 ? const Color.fromARGB(255, 45, 111, 79) : Colors.grey,
-                        size: 30,
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 25),
-                MaterialButton(
-                  minWidth: 40,
-                  onPressed: () {
-                    setState(() {
-                      currentScreen = const ProfileScreen();
-                      currentIndex = 3;
-                    });
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.person,
-                        color: currentIndex == 3 ? const Color.fromARGB(255, 45, 111, 79) : Colors.grey,
-                        size: 30,
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                )),
           ),
         ),
       ),
     );
   }
+}
+
+class BottomDataModel {
+  final IconData icon;
+  final int indextext;
+
+  BottomDataModel({
+    required this.icon,
+    required this.indextext,
+  });
 }

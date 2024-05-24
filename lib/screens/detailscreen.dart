@@ -7,7 +7,7 @@ import 'package:plant_project/screens/homescreen.dart';
 
 // ignore: must_be_immutable
 class DetailScreen extends StatefulWidget {
-  Product productdata;
+  ProductModel productdata;
   DetailScreen({Key? key, required this.productdata}) : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF0F4EF),
+      backgroundColor: const Color(0xffF0F4EF),
       body: Column(
         children: [
           Row(
@@ -46,7 +46,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   Container(
                     width: ScreenUtil().screenWidth,
                     height: 516,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Color(0xffF0F4EF),
                     ),
                     child: Image.asset(
@@ -59,7 +59,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     right: 10,
                     top: 30,
                     child: CircleAvatar(
-                      backgroundColor: Color(0xffB5C9AD),
+                      backgroundColor: const Color(0xffB5C9AD),
                       radius: 15.r,
                       child: GestureDetector(
                         onTap: () {
@@ -79,9 +79,9 @@ class _DetailScreenState extends State<DetailScreen> {
                     left: 10,
                     top: 30,
                     child: InkWell(
-                      onTap: () => Navigator.of(context).pop(HomeScreen()),
+                      onTap: () => Navigator.of(context).pop(const HomeScreen()),
                       child: CircleAvatar(
-                        backgroundColor: Color(0xffB5C9AD),
+                        backgroundColor: const Color(0xffB5C9AD),
                         radius: 15.r,
                         child: Icon(
                           Icons.arrow_back_ios_rounded,
@@ -97,10 +97,10 @@ class _DetailScreenState extends State<DetailScreen> {
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               width: double.infinity,
               height: 200,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30),
@@ -114,7 +114,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   children: [
                     Text(
                       widget.productdata.plantname,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 40,
                       ),
                     ),
@@ -122,46 +122,59 @@ class _DetailScreenState extends State<DetailScreen> {
                       children: [
                         Text(
                           widget.productdata.price,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 25,
                           ),
                         ),
-                        Spacer(),
-                        CircleAvatar(
-                          radius: 21.r,
-                          backgroundColor: const Color(0xffF2F4F7),
-                          child: InkWell(
-                            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                            child: Image.asset(
-                              "assets/minus.png",
-                              height: 50.0.h,
-                            ),
-                            onTap: decrementQuantity,
+                        const Spacer(),
+                        Container(
+                          height: 35.h,
+                          width: 105.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: const Color(0xffF0F4EF),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                spreadRadius: 4,
+                                blurRadius: 10,
+                                offset: Offset(3, 5),
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(width: 5),
-                        Text(
-                          '$quantity',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        SizedBox(width: 5),
-                        CircleAvatar(
-                          radius: 21.r,
-                          backgroundColor: const Color(0xffF2F4F7),
-                          child: InkWell(
-                            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                            child: Image.asset(
-                              "assets/add.png",
-                              height: 50.0.h,
-                            ),
-                            onTap: incrementQuantity,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                child: Image.asset(
+                                  "assets/minus.png",
+                                  height: 50.0.h,
+                                ),
+                                onTap: decrementQuantity,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                '$quantity',
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              const SizedBox(width: 4),
+                              InkWell(
+                                overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                child: Image.asset(
+                                  "assets/add.png",
+                                  height: 50.0.h,
+                                ),
+                                onTap: incrementQuantity,
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.star_rounded,
                           color: Color.fromARGB(255, 238, 197, 15),
                           size: 25,
@@ -169,7 +182,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         SizedBox(width: 5.w),
                         Text(
                           widget.productdata.rating,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                           ),
                         ),
@@ -178,15 +191,15 @@ class _DetailScreenState extends State<DetailScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'About Plant',
                           style: TextStyle(fontSize: 25),
                         ),
                         Text(
                           widget.productdata.discription,
-                          style: TextStyle(color: Color.fromARGB(255, 166, 166, 166)),
+                          style: const TextStyle(color: Color.fromARGB(255, 166, 166, 166)),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Container(
                           height: 40.h,
                           padding: const EdgeInsets.symmetric(horizontal: 32.0),

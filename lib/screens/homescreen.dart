@@ -18,10 +18,16 @@ class _HomeScreenState extends State<HomeScreen> {
   get kPrimaryColor => null;
   int seletected = 0;
   late List<bool> checked;
+  
+
   @override
   void initState() {
     super.initState();
     checked = List<bool>.filled(productAll.length, false);
+
+    _controller.addListener(() {
+      setState(() {});
+    });
   }
 
   List items = [
@@ -31,13 +37,23 @@ class _HomeScreenState extends State<HomeScreen> {
     'Cactus',
     'Rose',
   ];
+  TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20.h),
               topBar(context: context),
@@ -45,7 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 20.h),
               search(),
               SizedBox(height: 20.h),
-              categories(),
+              category(),
+              SizedBox(height: 20.h),
+              Listview(),
               SizedBox(height: 15.h),
               cardView(),
             ],
@@ -59,14 +77,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Row(
       children: [
         GestureDetector(
-          onTap: () => Navigator.push(
+          onTap: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => const ProfileScreen(),
               )),
           child: CircleAvatar(
             radius: 30.r,
-            foregroundImage: AssetImage("assets/profileimage.png"),
+            foregroundImage: const AssetImage("assets/profileimage.png"),
           ),
         ),
         SizedBox(width: 10.w),
@@ -78,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w500,
-                color: Color(0xffD0D5DD),
+                color: const Color(0xffD0D5DD),
               ),
             ),
             Text(
@@ -106,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ],
-    ).marginSymmetric(horizontal: 16.0.w, vertical: 10.0.h);
+    ).marginSymmetric(horizontal: 14.0.w, vertical: 10.0.h);
   }
 
   Widget location() {
@@ -114,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Icon(
           Icons.location_on_sharp,
-          color: Color(0xffD0D5DD),
+          color: const Color(0xffD0D5DD),
           size: 20.h,
         ),
         SizedBox(width: 6.w),
@@ -123,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(
             fontSize: 15.sp,
             fontWeight: FontWeight.w600,
-            color: Color(0xffD0D5DD),
+            color: const Color(0xffD0D5DD),
           ),
         ),
       ],
@@ -138,89 +156,108 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: EdgeInsets.symmetric(horizontal: 10.0.w),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r), color: const Color(0xffF2F4F7)),
       child: TextField(
+        controller: _controller,
         decoration: InputDecoration(
-            prefixIcon: Container(
-              height: 50.h,
-              width: 50.w,
-              alignment: Alignment.center,
-              child: Image.asset(
-                "assets/search.png",
-                height: 25.h,
-                width: 25.w,
-              ),
+          prefixIcon: Container(
+            height: 50.h,
+            width: 50.w,
+            alignment: Alignment.center,
+            child: Image.asset(
+              "assets/search.png",
+              height: 25.h,
+              width: 25.w,
             ),
-            suffixIcon: Image.asset("assets/setting.png"),
-            border: InputBorder.none,
-            fillColor: const Color(0xffF2F4F7),
-            filled: true,
-            hintText: "Search here",
-            hintStyle: TextStyle(fontSize: 20.sp, color: Color(0xff98A2B3))),
+          ),
+          suffixIcon: _controller.text.isNotEmpty
+              ? IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () {
+                    _controller.clear();
+                  },
+                )
+              : Image.asset("assets/setting.png"),
+          border: InputBorder.none,
+          fillColor: const Color(0xffF2F4F7),
+          filled: true,
+          hintText: "Search here",
+          hintStyle: TextStyle(fontSize: 20.sp, color: Color(0xff98A2B3)),
+        ),
       ),
     );
   }
 
-  Widget categories() {
+  Widget category() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
           'Category',
           style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 20.h),
-        SizedBox(
-          height: 35.h,
-          width: double.infinity,
-          child: ListView.builder(
-            itemCount: items.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return InkWell(
-                splashFactory: NoSplash.splashFactory,
-                onTap: () {
-                  setState(() {
-                    seletected = index;
-                  });
-                },
-                child: Container(
-                  height: 30.h,
-                  padding: EdgeInsets.symmetric(horizontal: 15.0.w),
-                  margin: EdgeInsets.symmetric(horizontal: 5.0.w),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(29.r),
-                    border: Border.all(
-                        color: seletected != index ? const Color(0xffD0D5DD) : Colors.transparent, width: 1.5),
-                    color: seletected == index ? const Color(0xff475E3E) : Colors.transparent,
-                  ),
-                  child: Center(
-                    child: Text(
-                      items[index],
-                      style: TextStyle(
-                        color: seletected != index ? const Color(0xffD0D5DD) : Colors.white,
-                        fontSize: 16.sp,
-                      ),
-                    ),
+      ],
+    ).marginSymmetric(horizontal: 10.0.w, vertical: 00.h);
+  }
+
+  // ignore: non_constant_identifier_names
+  Widget Listview() {
+    return SizedBox(
+      height: 35.h,
+      width: double.infinity,
+      child: ListView.builder(
+        itemCount: items.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return InkWell(
+            splashFactory: NoSplash.splashFactory,
+            onTap: () {
+              setState(() {
+                seletected = index;
+              });
+            },
+            child: Container(
+              height: 30.h,
+              padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+              margin: EdgeInsets.symmetric(horizontal: 5.0.w),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(29.r),
+                border:
+                    Border.all(color: seletected != index ? const Color(0xffD0D5DD) : Colors.transparent, width: 1.5),
+                color: seletected == index ? const Color(0xff475E3E) : Colors.transparent,
+              ),
+              child: Center(
+                child: Text(
+                  items[index],
+                  style: TextStyle(
+                    color: seletected != index ? const Color(0xffD0D5DD) : Colors.white,
+                    fontSize: 16.sp,
                   ),
                 ),
-              );
-            },
-          ),
-        ),
-      ],
-    ).marginSymmetric(horizontal: 16.0.w, vertical: 00.0.h);
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Widget cardView() {
+    List<ProductModel> productList = [];
+    if (seletected != 0) {
+      productList.addAll(productAll.where((element) => element.categoryId == seletected).toList());
+    } else {
+      productList.addAll(productAll);
+    }
     return Expanded(
       child: GridView.builder(
         padding: EdgeInsets.symmetric(horizontal: 10),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: (50 / 72), crossAxisSpacing: 0, mainAxisSpacing: 0),
+            crossAxisCount: 2, childAspectRatio: (50 / 75), crossAxisSpacing: 0, mainAxisSpacing: 0),
         scrollDirection: Axis.vertical,
-        itemCount: productAll.length,
+        itemCount: productList.length,
         itemBuilder: (context, index) {
           return Container(
-            padding: EdgeInsets.all(10.r),
+            padding: EdgeInsets.all(5.r),
             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             decoration: BoxDecoration(
               color: const Color(0xffF0F4EF),
@@ -228,25 +265,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             child: Stack(
               children: [
-                Positioned(
-                  right: 0,
-                  child: CircleAvatar(
-                    backgroundColor: Color(0xffB5C9AD),
-                    radius: 10.r,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          checked[index] = !checked[index];
-                        });
-                      },
-                      child: Icon(
-                        checked[index] ? Icons.favorite : Icons.favorite_border_outlined,
-                        color: Colors.red,
-                        size: 15.h,
-                      ),
-                    ),
-                  ),
-                ),
                 Column(
                   children: [
                     Image.asset(
@@ -301,6 +319,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     )
                   ],
+                ),
+                Positioned(
+                  right: 5,
+                  top: 10,
+                  child: CircleAvatar(
+                    backgroundColor: Color(0xffB5C9AD),
+                    radius: 10.r,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          checked[index] = !checked[index];
+                        });
+                      },
+                      child: Icon(
+                        checked[index] ? Icons.favorite : Icons.favorite_border_outlined,
+                        color: Colors.red,
+                        size: 15.h,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
