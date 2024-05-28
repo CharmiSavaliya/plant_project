@@ -16,8 +16,6 @@ List<CategoryModel> categoryList = [
   CategoryModel(index: 4, name: "Rose"),
 ];
 
-
-
 class ProductModel {
   final String plantname;
   final String image;
@@ -25,15 +23,18 @@ class ProductModel {
   final String discription;
   final String rating;
   final int categoryId;
+  bool isselected;
 
-  ProductModel({
-    required this.plantname,
-    required this.image,
-    required this.price,
-    required this.discription,
-    required this.rating,
-    required this.categoryId,
-  });
+  ProductModel(
+      {required this.plantname,
+      required this.image,
+      required this.price,
+      required this.discription,
+      required this.rating,
+      required this.categoryId,
+      required this.isselected});
+
+  get favorite => null;
 }
 
 List<ProductModel> productAll = [
@@ -45,6 +46,7 @@ List<ProductModel> productAll = [
         "The jade plant is an evergreen with thick branches. It has thick, shiny, smooth leaves that grow in opposing pairs along the branches. Leaves are a rich jade green, although some may appear to be more of a yellow-green.",
     rating: "4.9",
     categoryId: 1,
+    isselected: false,
   ),
   ProductModel(
     plantname: "Cactus",
@@ -54,6 +56,7 @@ List<ProductModel> productAll = [
         "The jade plant is an evergreen with thick branches. It has thick, shiny, smooth leaves that grow in opposing pairs along the branches. Leaves are a rich jade green, although some may appear to be more of a yellow-green.",
     rating: "4.9",
     categoryId: 2,
+    isselected: false,
   ),
   ProductModel(
     plantname: "philodendron",
@@ -63,6 +66,7 @@ List<ProductModel> productAll = [
         "The jade plant is an evergreen with thick branches. It has thick, shiny, smooth leaves that grow in opposing pairs along the branches. Leaves are a rich jade green, although some may appear to be more of a yellow-green.",
     rating: "4.9",
     categoryId: 3,
+    isselected: false,
   ),
   ProductModel(
     plantname: "Monstera",
@@ -72,6 +76,7 @@ List<ProductModel> productAll = [
         "The jade plant is an evergreen with thick branches. It has thick, shiny, smooth leaves that grow in opposing pairs along the branches. Leaves are a rich jade green, although some may appear to be more of a yellow-green.",
     rating: "4.9",
     categoryId: 4,
+    isselected: false,
   ),
   ProductModel(
     plantname: "Rose",
@@ -81,6 +86,7 @@ List<ProductModel> productAll = [
         "The jade plant is an evergreen with thick branches. It has thick, shiny, smooth leaves that grow in opposing pairs along the branches. Leaves are a rich jade green, although some may appear to be more of a yellow-green.",
     rating: "4.9",
     categoryId: 3,
+    isselected: false,
   ),
   ProductModel(
     plantname: "Neem",
@@ -90,6 +96,7 @@ List<ProductModel> productAll = [
         "The jade plant is an evergreen with thick branches. It has thick, shiny, smooth leaves that grow in opposing pairs along the branches. Leaves are a rich jade green, although some may appear to be more of a yellow-green.",
     rating: "4.9",
     categoryId: 2,
+    isselected: false,
   ),
   ProductModel(
     plantname: "Rose",
@@ -99,5 +106,6 @@ List<ProductModel> productAll = [
         "The jade plant is an evergreen with thick branches. It has thick, shiny, smooth leaves that grow in opposing pairs along the branches. Leaves are a rich jade green, although some may appear to be more of a yellow-green.",
     rating: "4.9",
     categoryId: 3,
+    isselected: false,
   ),
 ];

@@ -8,7 +8,7 @@ import 'package:plant_project/screens/homescreen.dart';
 // ignore: must_be_immutable
 class DetailScreen extends StatefulWidget {
   ProductModel productdata;
-  DetailScreen({Key? key, required this.productdata}) : super(key: key);
+  DetailScreen({Key? key, required this.productdata, required ProductModel product}) : super(key: key);
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();

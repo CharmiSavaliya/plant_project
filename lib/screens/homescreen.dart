@@ -18,7 +18,6 @@ class _HomeScreenState extends State<HomeScreen> {
   get kPrimaryColor => null;
   int seletected = 0;
   late List<bool> checked;
-  
 
   @override
   void initState() {
@@ -304,6 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             MaterialPageRoute(
                                 builder: (context) => DetailScreen(
                                       productdata: productAll[index],
+                                      product: productAll[index],
                                     )),
                           ),
                           child: CircleAvatar(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:plant_project/models/product.dart';
 
+
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen();
 

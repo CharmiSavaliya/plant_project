@@ -15,7 +15,6 @@ class PlantScreen extends StatefulWidget {
 
 class _PlantScreenState extends State<PlantScreen> {
   int currentIndex = 0;
-
   @override
   void initState() {
     super.initState();
