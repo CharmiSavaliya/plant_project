@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plant_project/screens/plantscreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -13,7 +14,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('ProfileScreen'),
+        title: InkWell(
+          onTap: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PlantScreen(),
+                ));
+          },
+          child: Text('ProfileScreen'),
+        ),
       ),
       body: const Center(
         child: Column(

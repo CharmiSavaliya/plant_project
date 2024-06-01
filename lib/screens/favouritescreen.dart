@@ -1,68 +1,85 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:plant_project/models/product.dart';
+import 'package:get/get.dart';
+import 'package:plant_project/screens/favouritecontroller.dart';
+import 'package:plant_project/screens/plantscreen.dart';
 
+class FavoriteScreen extends StatelessWidget {
+  final FavoriteController favoriteController = Get.find<FavoriteController>();
 
-class FavoriteScreen extends StatefulWidget {
-  const FavoriteScreen();
-
-  @override
-  State<FavoriteScreen> createState() => _FavoriteScreenState();
-}
-
-class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: (Text('Favourites')),
-        ),
-        body: Expanded(
-            child: ListView.builder(
-                itemCount: productAll.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Slidable(
-                      endActionPane: ActionPane(
-                        motion: ScrollMotion(),
-                        children: [
-                          SlidableAction(
-                            onPressed: (context) {
-                              setState(() {
-                                productAll.removeAt(index);
-                              });
-                            },
-                            backgroundColor: Color.fromARGB(255, 54, 98, 43),
-                            foregroundColor: Colors.white,
-                            icon: Icons.delete,
-                            label: 'Delete',
-                          )
-                        ],
-                      ),
-                      child: ListTile(
-                        title: Text(
-                          productAll[index].plantname,
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      appBar: AppBar(
+        title: InkWell(
+            onTap: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PlantScreen(),
+                  ));
+            },
+            child: Text('Favorite Products')),
+      ),
+      body: Obx(
+        () {
+          return GridView.builder(
+            padding: EdgeInsets.all(10),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: (50 / 75),
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
+            itemCount: favoriteController.favorites.length,
+            itemBuilder: (context, index) {
+              final product = favoriteController.favorites[index];
+              return Stack(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: const Color(0xffF0F4EF),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      children: [
+                        Image.asset(product.image),
+                        Spacer(),
+                        Text(product.plantname, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                        Container(
+                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(25.0)),
+                          child: Center(
+                            child: Text(product.price,
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xff475E3E))),
+                          ),
                         ),
-                        subtitle: Text(
-                          productAll[index].discription,
-                          overflow: TextOverflow.ellipsis,
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    right: 5,
+                    top: 5,
+                    child: GestureDetector(
+                      onTap: () {
+                        favoriteController.removeFavorite(product);
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Color(0xffB5C9AD),
+                        radius: 15,
+                        child: Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                          size: 20,
                         ),
-                        leading: CircleAvatar(
-                          radius: 30,
-                          backgroundImage: AssetImage(productAll[index].image),
-                          backgroundColor: Color(0xffF0F4EF),
-                        ),
-                        trailing: Text(
-                          productAll[index].price,
-                          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, color: Color(0xff475E3E)),
-                        ),
-                        tileColor: Color.fromARGB(255, 242, 242, 242),
                       ),
                     ),
-                  );
-                })));
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }

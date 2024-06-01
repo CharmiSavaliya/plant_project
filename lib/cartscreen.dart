@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:plant_project/screens/plantscreen.dart';
 
-class cartScreen extends StatefulWidget {
-  const cartScreen({super.key});
+class CartScreen extends StatefulWidget {
+  const CartScreen({super.key});
 
   @override
-  State<cartScreen> createState() => _cartScreenState();
+  State<CartScreen> createState() => _cartScreenState();
 }
 
-class _cartScreenState extends State<cartScreen> {
+class _cartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('CartScreen'),
+        title: InkWell(
+          onTap: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PlantScreen(),
+                ));
+          },
+          child: Text('CartScreen'),
+        ),
       ),
     );
   }

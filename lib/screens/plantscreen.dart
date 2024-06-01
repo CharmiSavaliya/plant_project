@@ -22,9 +22,9 @@ class _PlantScreenState extends State<PlantScreen> {
 
   List screens = [
     const HomeScreen(),
-    const FavoriteScreen(),
+    FavoriteScreen(),
     const ScannerScreen(),
-    const cartScreen(),
+    const CartScreen(),
     const ProfileScreen(),
   ];
 

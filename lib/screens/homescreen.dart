@@ -1,9 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:plant_project/models/product.dart';
 import 'package:plant_project/screens/detailscreen.dart';
-
+import 'package:plant_project/screens/favouritecontroller.dart';
 import 'package:plant_project/screens/notificationscreen.dart';
 import 'package:plant_project/screens/profilescreen.dart';
 
@@ -15,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final FavoriteController favoriteController = Get.put(FavoriteController());
+
   get kPrimaryColor => null;
   int seletected = 0;
   late List<bool> checked;
@@ -62,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 20.h),
               category(),
               SizedBox(height: 20.h),
-              Listview(),
+              listview(),
               SizedBox(height: 15.h),
               cardView(),
             ],
@@ -198,8 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ).marginSymmetric(horizontal: 10.0.w, vertical: 00.h);
   }
 
-  // ignore: non_constant_identifier_names
-  Widget Listview() {
+  Widget listview() {
     return SizedBox(
       height: 35.h,
       width: double.infinity,
@@ -267,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Column(
                   children: [
                     Image.asset(
-                      productAll[index].image,
+                      productList[index].image,
                     ),
                     Spacer(),
                     Row(
@@ -277,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              productAll[index].plantname,
+                              productList[index].plantname,
                               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
                             ),
                             Container(
@@ -288,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               child: Center(
                                 child: Text(
-                                  productAll[index].price,
+                                  productList[index].price,
                                   style:
                                       TextStyle(fontWeight: FontWeight.w500, fontSize: 14.sp, color: Color(0xff475E3E)),
                                 ),
@@ -302,8 +304,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => DetailScreen(
-                                      productdata: productAll[index],
-                                      product: productAll[index],
+                                      productdata: productList[index],
+                                      product: productList[index],
                                     )),
                           ),
                           child: CircleAvatar(
@@ -329,13 +331,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          checked[index] = !checked[index];
+                          if (favoriteController.isFavorite(productList[index])) {
+                            favoriteController.removeFavorite(productList[index]);
+                          } else {
+                            favoriteController.addFavorite(productList[index]);
+                          }
                         });
                       },
-                      child: Icon(
-                        checked[index] ? Icons.favorite : Icons.favorite_border_outlined,
-                        color: Colors.red,
-                        size: 15.h,
+                      child: Obx(
+                        () => Icon(
+                          favoriteController.isFavorite(productList[index])
+                              ? Icons.favorite
+                              : Icons.favorite_border_outlined,
+                          color: Colors.red,
+                          size: 15.h,
+                        ),
                       ),
                     ),
                   ),

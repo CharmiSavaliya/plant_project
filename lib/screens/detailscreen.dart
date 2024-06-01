@@ -1,13 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:plant_project/models/product.dart';
 import 'package:plant_project/screens/homescreen.dart';
 
-// ignore: must_be_immutable
 class DetailScreen extends StatefulWidget {
-  ProductModel productdata;
+  final ProductModel productdata;
   DetailScreen({Key? key, required this.productdata, required ProductModel product}) : super(key: key);
 
   @override

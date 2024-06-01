@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:plant_project/screens/favouritecontroller.dart';
 import 'package:plant_project/screens/welcomescreen.dart';
 
 void main() {
@@ -15,8 +16,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  
   @override
   Widget build(BuildContext context) {
+     Get.put(FavoriteController());
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       child: GetMaterialApp(
