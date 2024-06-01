@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -18,9 +17,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final FavoriteController favoriteController = Get.put(FavoriteController());
 
-  get kPrimaryColor => null;
+
   int seletected = 0;
   late List<bool> checked;
+  String searchQuery = '';
 
   @override
   void initState() {
@@ -28,7 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
     checked = List<bool>.filled(productAll.length, false);
 
     _controller.addListener(() {
-      setState(() {});
+      setState(() {
+        searchQuery = _controller.text;
+      });
     });
   }
 
@@ -249,6 +251,14 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       productList.addAll(productAll);
     }
+
+    // Filter products based on the search query
+    if (searchQuery.isNotEmpty) {
+      productList = productList.where((product) {
+        return product.plantname.toLowerCase().contains(searchQuery.toLowerCase());
+      }).toList();
+    }
+
     return Expanded(
       child: GridView.builder(
         padding: EdgeInsets.symmetric(horizontal: 10),
