@@ -24,7 +24,7 @@ class _PlantScreenState extends State<PlantScreen> {
     const HomeScreen(),
     FavoriteScreen(),
     const ScannerScreen(),
-    const CartScreen(),
+    CartScreen(),
     const ProfileScreen(),
   ];
 
@@ -72,6 +72,14 @@ class _PlantScreenState extends State<PlantScreen> {
             topLeft: Radius.circular(50.r),
             topRight: Radius.circular(50.r),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 7,
+              offset: Offset(0, -2),
+            ),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

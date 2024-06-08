@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:plant_project/models/product.dart';
 import 'package:plant_project/screens/detailscreen.dart';
-import 'package:plant_project/screens/favouritecontroller.dart';
+import 'package:plant_project/screens/favourite_provider.dart';
 import 'package:plant_project/screens/notificationscreen.dart';
 import 'package:plant_project/screens/profilescreen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final FavoriteController favoriteController = Get.put(FavoriteController());
-
-
   int seletected = 0;
   late List<bool> checked;
   String searchQuery = '';
+  TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
@@ -34,20 +31,13 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  List items = [
-    'All',
-    'Indoor',
-    'Outdoor',
-    'Cactus',
-    'Rose',
-  ];
-  TextEditingController _controller = TextEditingController();
-
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
+
+  List<String> items = ['All', 'Indoor', 'Outdoor', 'Cactus', 'Rose'];
 
   @override
   Widget build(BuildContext context) {
@@ -55,23 +45,21 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20.h),
-              topBar(context: context),
-              location(),
-              SizedBox(height: 20.h),
-              search(),
-              SizedBox(height: 20.h),
-              category(),
-              SizedBox(height: 20.h),
-              listview(),
-              SizedBox(height: 15.h),
-              cardView(),
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 20),
+            topBar(context: context),
+            location(),
+            SizedBox(height: 20),
+            search(),
+            SizedBox(height: 20),
+            category(),
+            SizedBox(height: 20),
+            listview(),
+            SizedBox(height: 15),
+            cardView(),
+          ],
         ),
       ),
     );
@@ -82,42 +70,47 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         GestureDetector(
           onTap: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ProfileScreen(),
-              )),
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ProfileScreen(),
+            ),
+          ),
           child: CircleAvatar(
-            radius: 30.r,
+            radius: 30,
             foregroundImage: const AssetImage("assets/profileimage.png"),
           ),
         ),
-        SizedBox(width: 10.w),
+        SizedBox(width: 10),
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
               "Welcome",
               style: TextStyle(
-                fontSize: 20.sp,
+                fontSize: 20,
                 fontWeight: FontWeight.w500,
                 color: const Color(0xffD0D5DD),
               ),
             ),
             Text(
               "Charmi",
-              style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w500, color: Color(0xff344054)),
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.w500,
+                color: Color(0xff344054),
+              ),
             ),
           ],
         ),
         const Spacer(),
         CircleAvatar(
-          radius: 21.r,
+          radius: 21,
           backgroundColor: const Color(0xffF2F4F7),
           child: InkWell(
             overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
             child: Image.asset(
               "assets/noo.png",
-              height: 50.0.h,
+              height: 50.0,
             ),
             onTap: () {
               Navigator.push(
@@ -128,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ],
-    ).marginSymmetric(horizontal: 14.0.w, vertical: 10.0.h);
+    );
   }
 
   Widget location() {
@@ -137,39 +130,42 @@ class _HomeScreenState extends State<HomeScreen> {
         Icon(
           Icons.location_on_sharp,
           color: const Color(0xffD0D5DD),
-          size: 20.h,
+          size: 20,
         ),
-        SizedBox(width: 6.w),
+        SizedBox(width: 6),
         Text(
           "Surat, Gujarat",
           style: TextStyle(
-            fontSize: 15.sp,
+            fontSize: 15,
             fontWeight: FontWeight.w600,
             color: const Color(0xffD0D5DD),
           ),
         ),
       ],
-    ).marginSymmetric(horizontal: 16.0.w, vertical: 00.h);
+    );
   }
 
   Widget search() {
     return Container(
-      width: Get.width,
-      height: 40.0.h,
-      margin: EdgeInsets.symmetric(horizontal: 10.0.w),
-      padding: EdgeInsets.symmetric(horizontal: 10.0.w),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r), color: const Color(0xffF2F4F7)),
+      width: double.infinity,
+      height: 40.0,
+      margin: EdgeInsets.symmetric(horizontal: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: const Color(0xffF2F4F7),
+      ),
       child: TextField(
         controller: _controller,
         decoration: InputDecoration(
           prefixIcon: Container(
-            height: 50.h,
-            width: 50.w,
+            height: 50,
+            width: 50,
             alignment: Alignment.center,
             child: Image.asset(
               "assets/search.png",
-              height: 25.h,
-              width: 25.w,
+              height: 25,
+              width: 25,
             ),
           ),
           suffixIcon: _controller.text.isNotEmpty
@@ -177,6 +173,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icon(Icons.clear),
                   onPressed: () {
                     _controller.clear();
+                    setState(() {
+                      searchQuery = '';
+                    });
                   },
                 )
               : Image.asset("assets/setting.png"),
@@ -184,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
           fillColor: const Color(0xffF2F4F7),
           filled: true,
           hintText: "Search here",
-          hintStyle: TextStyle(fontSize: 20.sp, color: Color(0xff98A2B3)),
+          hintStyle: TextStyle(fontSize: 20, color: Color(0xff98A2B3)),
         ),
       ),
     );
@@ -193,19 +192,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget category() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
           'Category',
-          style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ],
-    ).marginSymmetric(horizontal: 10.0.w, vertical: 00.h);
+    );
   }
 
   Widget listview() {
     return SizedBox(
-      height: 35.h,
+      height: 35,
       width: double.infinity,
       child: ListView.builder(
         itemCount: items.length,
@@ -219,13 +217,15 @@ class _HomeScreenState extends State<HomeScreen> {
               });
             },
             child: Container(
-              height: 30.h,
-              padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-              margin: EdgeInsets.symmetric(horizontal: 5.0.w),
+              height: 30,
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              margin: EdgeInsets.symmetric(horizontal: 5.0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(29.r),
-                border:
-                    Border.all(color: seletected != index ? const Color(0xffD0D5DD) : Colors.transparent, width: 1.5),
+                borderRadius: BorderRadius.circular(29),
+                border: Border.all(
+                  color: seletected != index ? const Color(0xffD0D5DD) : Colors.transparent,
+                  width: 1.5,
+                ),
                 color: seletected == index ? const Color(0xff475E3E) : Colors.transparent,
               ),
               child: Center(
@@ -233,7 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   items[index],
                   style: TextStyle(
                     color: seletected != index ? const Color(0xffD0D5DD) : Colors.white,
-                    fontSize: 16.sp,
+                    fontSize: 16,
                   ),
                 ),
               ),
@@ -263,104 +263,124 @@ class _HomeScreenState extends State<HomeScreen> {
       child: GridView.builder(
         padding: EdgeInsets.symmetric(horizontal: 10),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: (50 / 75), crossAxisSpacing: 0, mainAxisSpacing: 0),
+          crossAxisCount: 2,
+          childAspectRatio: (50 / 75),
+          crossAxisSpacing: 0,
+          mainAxisSpacing: 0,
+        ),
         scrollDirection: Axis.vertical,
         itemCount: productList.length,
         itemBuilder: (context, index) {
-          return Container(
-            padding: EdgeInsets.all(5.r),
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            decoration: BoxDecoration(
-              color: const Color(0xffF0F4EF),
-              borderRadius: BorderRadius.circular(15.r),
-            ),
-            child: Stack(
-              children: [
-                Column(
-                  children: [
-                    Image.asset(
-                      productList[index].image,
-                    ),
-                    Spacer(),
-                    Row(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              productList[index].plantname,
-                              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 5.0.w, vertical: 4.0.h),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(25.0.r),
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailScreen(
+                    productdata: productList[index],
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              padding: EdgeInsets.all(5),
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+              decoration: BoxDecoration(
+                color: const Color(0xffF0F4EF),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      Image.asset(
+                        productList[index].image,
+                      ),
+                      Spacer(),
+                      Row(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                productList[index].plantname,
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                               ),
-                              child: Center(
-                                child: Text(
-                                  productList[index].price,
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.w500, fontSize: 14.sp, color: Color(0xff475E3E)),
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 4.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    productList[index].price,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      color: Color(0xff475E3E),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Spacer(),
+                          InkWell(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailScreen(
+                                  productdata: productList[index],
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                        Spacer(),
-                        InkWell(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DetailScreen(
-                                      productdata: productList[index],
-                                      product: productList[index],
-                                    )),
-                          ),
-                          child: CircleAvatar(
-                            backgroundColor: const Color(0xffB5C9AD),
-                            radius: 12.r,
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.white,
-                              size: 20.h,
+                            child: CircleAvatar(
+                              backgroundColor: const Color(0xffB5C9AD),
+                              radius: 12,
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: 20,
+                              ),
                             ),
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Positioned(
-                  right: 5,
-                  top: 10,
-                  child: CircleAvatar(
-                    backgroundColor: Color(0xffB5C9AD),
-                    radius: 10.r,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          if (favoriteController.isFavorite(productList[index])) {
-                            favoriteController.removeFavorite(productList[index]);
-                          } else {
-                            favoriteController.addFavorite(productList[index]);
-                          }
-                        });
-                      },
-                      child: Obx(
-                        () => Icon(
-                          favoriteController.isFavorite(productList[index])
-                              ? Icons.favorite
-                              : Icons.favorite_border_outlined,
-                          color: Colors.red,
-                          size: 15.h,
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  Positioned(
+                    right: 5,
+                    top: 10,
+                    child: CircleAvatar(
+                      backgroundColor: Color(0xffB5C9AD),
+                      radius: 15,
+                      child: GestureDetector(
+                        onTap: () {
+                          final favoriteProvider = Provider.of<FavoriteProvider>(context, listen: false);
+                          setState(() {
+                            if (favoriteProvider.isFavorite(productList[index])) {
+                              favoriteProvider.removeFavorite(productList[index]);
+                            } else {
+                              favoriteProvider.addFavorite(productList[index]);
+                            }
+                          });
+                        },
+                        child: Consumer<FavoriteProvider>(
+                          builder: (context, favoriteProvider, child) {
+                            return Icon(
+                              Icons.favorite,
+                              color: favoriteProvider.isFavorite(productList[index]) ? Colors.red : Colors.white,
+                              size: 18,
+                            );
+                          },
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },

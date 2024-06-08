@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:plant_project/screens/plantscreen.dart';
 import 'package:shape_of_view_null_safe/shape_of_view_null_safe.dart';
 
@@ -21,8 +20,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           ShapeOfView(
             shape: ArcShape(direction: ArcDirection.Outside, height: 20.h, position: ArcPosition.Bottom),
             child: Container(
-              height: Get.height / 1.4,
-              width: Get.width,
+              height: MediaQuery.of(context).size.height / 1.4,
+              width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                 color: Color(0xffF0F4EF),
               ),
@@ -37,45 +36,54 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
           ),
           SizedBox(height: 20.h),
-          Container(
-            height: 45.h,
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            decoration: BoxDecoration(
-              color: const Color(0xff475E3E),
-              borderRadius: BorderRadius.circular(42.r),
+          InkWell(
+            onTap: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const PlantScreen()),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                InkWell(
-                  onTap: () =>
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const PlantScreen())),
-                  child: Text(
-                    "Let's Start",
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      color: Colors.white,
+            child: Container(
+              height: 45.h,
+              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              decoration: BoxDecoration(
+                color: const Color(0xff475E3E),
+                borderRadius: BorderRadius.circular(42.r),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  InkWell(
+                    onTap: () => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const PlantScreen()),
+                    ),
+                    child: Text(
+                      "Let's Start",
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: 25.w),
-                Container(
-                  padding: EdgeInsets.all(4.0.r),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 0.8.w),
-                    shape: BoxShape.circle,
-                  ),
-                  child: InkWell(
-                    child: Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      color: Colors.white,
-                      size: 18.h,
+                  SizedBox(width: 25.w),
+                  Container(
+                    padding: EdgeInsets.all(4.0.r),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white, width: 0.8.w),
+                      shape: BoxShape.circle,
                     ),
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const PlantScreen())),
+                    child: InkWell(
+                      child: Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        color: Colors.white,
+                        size: 18.h,
+                      ),
+                      onTap: () =>
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const PlantScreen())),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
