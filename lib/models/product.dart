@@ -33,8 +33,6 @@ class ProductModel {
       required this.rating,
       required this.categoryId,
       required this.isselected});
-
-  get favorite => null;
 }
 
 List<ProductModel> productAll = [
@@ -109,5 +107,3 @@ List<ProductModel> productAll = [
     isselected: false,
   ),
 ];
-
-

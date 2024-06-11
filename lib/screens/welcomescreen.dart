@@ -2,9 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plant_project/screens/plantscreen.dart';
 import 'package:shape_of_view_null_safe/shape_of_view_null_safe.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
+
+  Future<void> _navigateToScreen(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('seen', true);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const PlantScreen()),
+    );
+  }
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
@@ -18,7 +28,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       body: Column(
         children: [
           ShapeOfView(
-            shape: ArcShape(direction: ArcDirection.Outside, height: 20.h, position: ArcPosition.Bottom),
+            shape: ArcShape(
+              direction: ArcDirection.Outside,
+              height: 20.h,
+              position: ArcPosition.Bottom,
+            ),
             child: Container(
               height: MediaQuery.of(context).size.height / 1.4,
               width: MediaQuery.of(context).size.width,
@@ -31,16 +45,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           SizedBox(height: 20.h),
           Text(
             "Create Your \nOwn Garden!",
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 35.sp,
+              fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(height: 20.h),
           InkWell(
-            onTap: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const PlantScreen()),
-            ),
+            onTap: () => widget._navigateToScreen(context),
             child: Container(
               height: 45.h,
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -52,17 +65,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  InkWell(
-                    onTap: () => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const PlantScreen()),
-                    ),
-                    child: Text(
-                      "Let's Start",
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        color: Colors.white,
-                      ),
+                  Text(
+                    "Let's Start",
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      color: Colors.white,
                     ),
                   ),
                   SizedBox(width: 25.w),
@@ -72,14 +79,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       border: Border.all(color: Colors.white, width: 0.8.w),
                       shape: BoxShape.circle,
                     ),
-                    child: InkWell(
-                      child: Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: Colors.white,
-                        size: 18.h,
-                      ),
-                      onTap: () =>
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const PlantScreen())),
+                    child: Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      color: Colors.white,
+                      size: 18.h,
                     ),
                   ),
                 ],

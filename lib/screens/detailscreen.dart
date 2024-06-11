@@ -223,6 +223,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
+                                      duration: Duration(microseconds: 200),
                                       content: Text('${widget.productdata.plantname} added to cart'),
                                     ),
                                   );
