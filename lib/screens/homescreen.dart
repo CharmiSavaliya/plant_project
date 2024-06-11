@@ -67,82 +67,91 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget topBar({required BuildContext context}) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ProfileScreen(),
-            ),
-          ),
-          child: CircleAvatar(
-            radius: 30,
-            foregroundImage: const AssetImage("assets/profileimage.png"),
-          ),
-        ),
-        SizedBox(width: 10),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              "Welcome",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: const Color(0xffD0D5DD),
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProfileScreen(),
               ),
             ),
-            Text(
-              "Charmi",
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w500,
-                color: Color(0xff344054),
-              ),
+            child: CircleAvatar(
+              radius: 30,
+              foregroundImage: const AssetImage("assets/profileimage.png"),
             ),
-          ],
-        ),
-        const Spacer(),
-        CircleAvatar(
-          radius: 21,
-          backgroundColor: const Color(0xffF2F4F7),
-          child: InkWell(
-            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
-            child: Image.asset(
-              "assets/noo.png",
-              height: 50.0,
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const NotificationScreen()),
-              );
-            },
           ),
-        ),
-      ],
+          SizedBox(width: 10),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                "Welcome",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xffD0D5DD),
+                ),
+              ),
+              Text(
+                "Charmi",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff344054),
+                ),
+              ),
+            ],
+          ),
+          const Spacer(),
+          CircleAvatar(
+            radius: 21,
+            backgroundColor: const Color(0xffF2F4F7),
+            child: InkWell(
+              overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+              child: Image.asset(
+                "assets/noo.png",
+                height: 50.0,
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const NotificationScreen()),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget location() {
-    return Row(
-      children: [
-        Icon(
-          Icons.location_on_sharp,
-          color: const Color(0xffD0D5DD),
-          size: 20,
-        ),
-        SizedBox(width: 6),
-        Text(
-          "Surat, Gujarat",
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 10,
+      ),
+      child: Row(
+        children: [
+          SizedBox(height: 20),
+          Icon(
+            Icons.location_on_sharp,
             color: const Color(0xffD0D5DD),
+            size: 20,
           ),
-        ),
-      ],
+          SizedBox(width: 6),
+          Text(
+            "Surat, Gujarat",
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: const Color(0xffD0D5DD),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -192,20 +201,23 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget category() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Category',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 5, left: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Category',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
     );
   }
 
   Widget listview() {
     return SizedBox(
-      height: 35,
+      height: 35.h,
       width: double.infinity,
       child: ListView.builder(
         itemCount: items.length,
@@ -219,9 +231,9 @@ class _HomeScreenState extends State<HomeScreen> {
               });
             },
             child: Container(
-              height: 30,
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
+              height: 50,
+              padding: EdgeInsets.symmetric(horizontal: 15.0),
+              margin: EdgeInsets.symmetric(horizontal: 10.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(29),
                 border: Border.all(

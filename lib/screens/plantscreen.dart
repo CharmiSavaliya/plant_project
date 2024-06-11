@@ -85,26 +85,52 @@ class _PlantScreenState extends State<PlantScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: List.generate(
             bottomDataList.length,
-            (index) => GestureDetector(
-                onTap: () {
-                  _onitemTapped(index);
-                },
-                child: InkWell(
-                  onTap: () {
-                    _onitemTapped(bottomDataList[index].indextext);
-                  },
-                  child: SizedBox(
-                    height: 50.h,
-                    width: 50.w,
-                    child: Icon(
-                      bottomDataList[index].icon,
-                      size: 30,
-                      color: bottomDataList[index].indextext == currentIndex
-                          ? const Color.fromARGB(255, 73, 99, 63)
-                          : const Color.fromARGB(255, 207, 204, 204),
+            (index) {
+              if (index == 1 || index == 2) {
+                return SizedBox(
+                  width: 60.w,
+                  child: GestureDetector(
+                    onTap: () {
+                      _onitemTapped(index);
+                    },
+                    child: InkWell(
+                      onTap: () {
+                        _onitemTapped(bottomDataList[index].indextext);
+                      },
+                      child: Icon(
+                        bottomDataList[index].icon,
+                        size: 30,
+                        color: bottomDataList[index].indextext == currentIndex
+                            ? const Color.fromARGB(255, 73, 99, 63)
+                            : const Color.fromARGB(255, 207, 204, 204),
+                      ),
                     ),
                   ),
-                )),
+                );
+              } else {
+                return GestureDetector(
+                  onTap: () {
+                    _onitemTapped(index);
+                  },
+                  child: InkWell(
+                    onTap: () {
+                      _onitemTapped(bottomDataList[index].indextext);
+                    },
+                    child: SizedBox(
+                      height: 50.h,
+                      width: 20.w,
+                      child: Icon(
+                        bottomDataList[index].icon,
+                        size: 30,
+                        color: bottomDataList[index].indextext == currentIndex
+                            ? const Color.fromARGB(255, 73, 99, 63)
+                            : const Color.fromARGB(255, 207, 204, 204),
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
           ),
         ),
       ),
